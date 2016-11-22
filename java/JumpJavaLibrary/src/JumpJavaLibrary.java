@@ -1,5 +1,6 @@
 /**
- * 
+ * This file contains useful Java code that may be reused in the future.
+ * Warning: This may contain solutions from competitions. Use this for reference, not for cheating.
  * @author Thanawut Ananpiriyakul
  *
  */
