@@ -1,5 +1,12 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * This file contains useful Java code that may be reused in the future.
@@ -258,11 +265,150 @@ public class JumpJavaLibrary {
 		long sum = n * (n + 1) / 2;
 		return sum * sum;
 	}
+	
+	
+
+	/**
+	 * Example of comparator.
+	 * @author tanapiriyakul
+	 *
+	 */
+	private static class StringLengthComparator implements Comparator<String>
+	{
+	    @Override
+	    public int compare(String x, String y)
+	    {
+	    	System.out.println("\t" + x + " " + y);
+	    	return x.length() - y.length();
+	    }
+	}
+	
+	/**
+	 * Example of PriorityQueue.
+	 * @return
+	 */
+	public static PriorityQueue<String> newPriorityQueueExample() {
+		Comparator<String> comparator = new StringLengthComparator();
+		PriorityQueue<String> queue = new PriorityQueue<>(comparator);
+		return queue;
+	}
+	
+	public static boolean isPrime(int n) {
+		n = Math.abs(n);
+		if (n == 0 || n == 1) return false;
+		if (n == 2) return true;
+		if (n % 2 == 0) return false;
+		for (int i=3; i<=Math.sqrt(n); i+=2) {
+			if (n % i == 0) return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Return a list of prime number not greater than a given number.
+	 * @param n
+	 * @return
+	 */
+	public static int[] getPrimeList(int n) {
+		double sqrtOfN = Math.sqrt(n);
+		boolean[] board = new boolean[n+1];
+		Arrays.fill(board, true);
+		board[0] = false;
+		board[1] = false;
+		for (int i=2; i<=n; i++) {
+			if (board[i] == true) {
+				int index = i*i;
+				if (i > sqrtOfN) {
+					continue;
+				}
+				while (index <= n) {
+					board[index] = false;
+					index += i;
+				}
+			}
+		}
+		List<Integer> primeList = new ArrayList<Integer>();
+		for (int i=0; i<=n; i++) {
+			if (board[i] == true) {
+				primeList.add(i);
+			}
+		}
+		return integerListToIntArray(primeList);
+	}
+	
+	public static int[] integerListToIntArray(List<Integer> integerArray)
+	{
+	    int[] intArray = new int[integerArray.size()];
+	    for (int i=0; i < integerArray.size(); i++)
+	    {
+	    	intArray[i] = integerArray.get(i).intValue();
+	    }
+	    return intArray;
+	}
+	
+	public static int[] getEquilibriumIndices(int[] A) {
+        // write your code in Java SE 8
+        int size = A.length;
+        int [] leftCum = new int[size];
+        int [] rightCum = new int[size];
+        leftCum[0] = A[0];
+        for (int i=1; i<size; i++) {
+            leftCum[i] = leftCum[i-1] + A[i];
+        }
+        rightCum[size-1] = A[size-1];
+        for (int i=size - 2; i>=0; i--) {
+            rightCum[i] = rightCum[i+1] + A[i];
+        }
+        List<Integer> equilibriumPoints = new ArrayList<>();
+        for (int i=0; i<size; i++) {
+            if (leftCum[i] == rightCum[i]) {
+                equilibriumPoints.add(i);
+            }   
+        }
+        return integerListToIntArray(equilibriumPoints);
+    }
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(gcd(-1, 100));
-
+//		PriorityQueue<String> queue = newPriorityQueueExample();
+//		queue.add("hdj");
+//		queue.add("al");
+//		queue.add("jjjd");
+//		queue.add("");
+//		while(!queue.isEmpty()) {
+//			String element = queue.poll();
+//			System.out.println(element);
+//		}
+		
+//		int[] A = {-1, 3, -4, 5, 1, -6, 2, 1};
+//		System.out.println( Arrays.toString(getEquilibriumIndices(A)));
+		
+//		System.out.println(Arrays.toString(getPrimeList(100000000)));
+		
+//		System.out.println(getPrimeList(1000000).length);
+		
+//		int[] primeList = getPrimeList(10000000);
+//		Set<Integer> primtSortedSet = new TreeSet<>();
+//		for (int i=0; i<primeList.length; i++) {
+//			primtSortedSet.add(primeList[i]);
+//		}
+//		for (int i=0; i<primeList[primeList.length-1]; i++) {
+//			if (primtSortedSet.contains(i)) {
+//				if (!isPrime(i)) {
+//					System.out.println("ERROR");
+//				}
+//			}
+//			else {
+//				if (isPrime(i)) {
+//					System.out.println("ERROR");
+//				}
+//			}
+//		}
+		
+		
+		
+		
 	}
 
 }
